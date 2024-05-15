@@ -1,0 +1,219 @@
+/* Style général de la page */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #edf2f7;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+}
+
+.admin-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.admin-actions,
+.admin-notifications {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.admin-actions {
+    width: 70%;
+}
+
+.admin-notifications {
+    width: 28%;
+    margin-left: 2%;
+}
+
+h1 {
+    color: #2c3e50;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+button {
+    background: linear-gradient(45deg, #6dd5ed, #2193b0);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+/* ... (autres styles CSS) */
+
+button:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+}
+
+button:hover {
+    background: linear-gradient(45deg, #2193b0, #6dd5ed);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+input[type="text"],
+select,
+textarea {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+/* .modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    width: 80%;
+    max-width: 500px;
+}
+
+.modal-content {
+    margin-bottom: 20px;
+}
+
+.close {
+    float: right;
+    font-size: 1.2rem;
+    cursor: pointer;
+} */
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 50%;
+    /* Ajustez la largeur selon vos besoins */
+    max-width: 600px;
+    max-height: 80vh;
+    /* Hauteur maximale avant d'utiliser le défilement */
+    overflow-y: auto;
+    /* Active le défilement vertical si nécessaire */
+}
+
+.modal-content {
+    position: relative;
+    /* Pour positionner correctement le bouton de fermeture */
+    overflow-y: auto;
+    /* Permet un défilement interne si nécessaire */
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 1;
+    color: #6c757d;
+    /* Couleur de la croix de fermeture */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    margin-bottom: 20px;
+}
+
+.modal-header h2 {
+    margin-top: 0;
+    color: #333;
+    font-size: 22px;
+}
+
+.modal-body p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.modal-footer {
+    margin-top: 20px;
+    text-align: right;
+    /* Aligner les boutons à droite */
+}
+
+.modal-footer button {
+    background: linear-gradient(45deg, #6dd5ed, #2193b0);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin-left: 10px;
+    /* Espace entre les boutons */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-footer button:hover {
+    background: linear-gradient(45deg, #2193b0, #6dd5ed);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-footer button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.modal-footer .refusal-input {
+    margin-right: 10px;
+    /* Espace entre l'input et le bouton */
+}
+
+.modal-footer .refusal-input input[type="text"] {
+    width: auto;
+    /* Permettre à l'input de ne prendre que l'espace nécessaire */
+    display: inline-block;
+    /* Aligner l'input avec le bouton */
+}
+
+/* Styles pour les validations */
+.validation-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.validation-container label {
+    display: flex;
+    align-items: center;
+}
+
+.validation-container input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* Styles pour ToastContainer */
+.Toastify__toast-container {
+    font-size: 14px;
+}
+
+/* Ajoutez d'autres styles selon vos besoins */

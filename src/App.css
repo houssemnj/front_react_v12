@@ -1,0 +1,107 @@
+/* Style général de la page */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #edf2f7;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.left {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 70%;
+    min-height: 100vh;
+}
+
+.right {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 28%;
+    /* Ajustement pour l'espacement */
+    min-height: 100vh;
+    /* Hauteur minimale pour occuper tout le viewport vertical */
+    max-height: 100vh;
+    /* Hauteur maximale pour empêcher le div de grandir */
+    overflow-y: auto;
+    /* Affiche un curseur de défilement si le contenu est trop long */
+    margin-left: 2%;
+    /* Espace entre les deux divs */
+}
+
+h1 {
+    color: #2c3e50;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Styles pour les formulaires, boutons, inputs, et textarea */
+/* ... */
+
+/* Styles pour le titre et les validations */
+.validation-title {
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.validation-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* Espace entre les cases à cocher */
+}
+
+.validation-container label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.validation-container input[type="checkbox"] {
+    margin-right: 5px;
+    /* Espace entre la case à cocher et le texte */
+}
+
+/* Styles pour ToastContainer */
+.Toastify__toast-container {
+    font-size: 14px;
+}
+
+/* Styles pour les détails des demandes */
+.detail-container {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #e7e7e7;
+    border-left: 5px solid #2193b0;
+    /* Couleur de la barre latérale pour les détails */
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.detail-container h3 {
+    color: #333;
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.detail-container p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* Ajoutez d'autres styles selon vos besoins */
