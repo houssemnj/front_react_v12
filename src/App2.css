@@ -5,7 +5,7 @@ body {
     color: #333;
     line-height: 1.6;
     margin: 0;
-    padding: 20px;
+    padding: 0;
 }
 
 .admin-container {
@@ -38,30 +38,7 @@ h1 {
     margin-bottom: 20px;
 }
 
-button {
-    background: linear-gradient(45deg, #6dd5ed, #2193b0);
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    margin: 10px 0;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
 
-/* ... (autres styles CSS) */
-
-button:disabled {
-    background-color: #cccccc;
-    color: #666666;
-    cursor: not-allowed;
-}
-
-button:hover {
-    background: linear-gradient(45deg, #2193b0, #6dd5ed);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
 
 input[type="text"],
 select,
@@ -158,28 +135,6 @@ textarea {
     margin-top: 20px;
     text-align: right;
     /* Aligner les boutons à droite */
-}
-
-.modal-footer button {
-    background: linear-gradient(45deg, #6dd5ed, #2193b0);
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    margin-left: 10px;
-    /* Espace entre les boutons */
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.modal-footer button:hover {
-    background: linear-gradient(45deg, #2193b0, #6dd5ed);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.modal-footer button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
 }
 
 .modal-footer .refusal-input {
