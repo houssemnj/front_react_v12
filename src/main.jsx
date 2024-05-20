@@ -6,9 +6,9 @@ import AppContext from "./context/AppContext.js";
 import AppContextProvider from "./context/AppContextProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  // <React.StrictMode>
+  <React.StrictMode>
     <AppContextProvider>
       <App />
     </AppContextProvider>
-  // </React.StrictMode>
+  </React.StrictMode>
 );

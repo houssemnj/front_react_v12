@@ -1,0 +1,56 @@
+.ant-modal-content {
+    position: relative !important;
+    top: 10%;
+    /* Adjust this value to move the modal down */
+    left: 50%;
+    transform: translateX(-50%);
+    /* Only move the modal horizontally */
+    background-color: #fff;
+    padding: 1em;
+    width: 1100px;
+    /* Set the width to 1000px */
+    max-height: 80vh;
+    /* Set the maximum height to 80% of the viewport height */
+    overflow: auto;
+    /* Add a scrollbar if the content is larger than the modal */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+}
+
+
+
+.modal pre {
+    margin: 0;
+    /* Remove the default margin */
+    padding: 1em;
+    max-height: 66vh;
+    /* Set the maximum height to 70% of the viewport height */
+    overflow: auto;
+    /* Add a scrollbar if the content is larger than the pre tag */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* Styles pour la nouvelle boîte de dialogue modale */
+/* .confirmation-modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.confirmation-modal-content {
+    position: relative;
+    margin: 15% auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    background-color: #fff;
+    border-radius: 10px;
+} */

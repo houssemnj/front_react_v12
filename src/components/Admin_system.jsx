@@ -20,6 +20,7 @@ const Admin_system = () => {
   const [currentDetailId, setCurrentDetailId] = useState(null); // ID de la demande actuellement affichée dans le modal
   const [message, setMessage] = useState(""); // Message indiquant le nombre de nouvelles demandes
   const [isInputVisible, setIsInputVisible] = useState(false);
+  const [usersList, setUsersList] = useState([]);
 
   const columns = [
     {
@@ -47,6 +48,10 @@ const Admin_system = () => {
     {
       title: "Tag",
       dataIndex: "tag",
+    },
+    {
+      title: "date de prod",
+      dataIndex: "date_de_prod",
     },
     {
       title: "Actions",
@@ -94,22 +99,34 @@ const Admin_system = () => {
       .catch((error) => console.error(error));
   }, []);
 
+
+  useEffect(() => {
+    // Appel à l'endpoint get_users pour récupérer la liste des utilisateurs
+    axios.get('http://localhost:5001/get_users')
+      .then((response) => {
+        if (response.data) {
+          setUsersList(response.data); // Mettre à jour usersList avec la réponse
+        }
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
+  const renderUserOptions = () => {
+    return (
+      <>
+        <option value="">{/* Texte pour l'option par défaut */}Choisissez un project_leader</option>
+        {usersList.map((user, index) => (
+          <option key={index} value={user._id}>
+            {user.nom}
+          </option>
+        ))}
+      </>
+    );
+  };
+
   const sortedDemands = newObjects.sort(
     (a, b) => b.isNew - a.isNew || b.timestamp - a.timestamp
   );
-  const handleShowDetails = (detailId) => {
-    setCurrentDetailId(detailId); // Afficher le modal pour cette demande
-    setRefusalInputFor(null); // Réinitialiser le champ de saisie de refus
-  };
-
-  const handleCloseModal = () => {
-    setCurrentDetailId(null); // Fermer le modal
-  };
-
-  const getCurrentDetail = () => {
-    // Trouver l'objet par son ID. Si non trouvé, retourner null.
-    return newObjects.find((obj) => obj._id === currentDetailId) || null;
-  };
 
   const handleApprove = (_id) => {
     axios
@@ -187,8 +204,14 @@ const Admin_system = () => {
         project_url: projectUrl,
         project_leader: projectLeader,
       })
-      .then((response) => console.log(response.data))
-      .catch((error) => console.error(error));
+      .then((response) => {
+        toast.success(`Projet ajouté : ${response.data.message}`);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        toast.error(`Erreur lors de l'ajout du projet : ${error.response.data.message}`);
+        console.error(error);
+      });
   };
 
   const handleDeleteProject = () => {
@@ -196,8 +219,14 @@ const Admin_system = () => {
       .post("http://localhost:5001/supprimer_projet", {
         project_url: projectUrl,
       })
-      .then((response) => console.log(response.data))
-      .catch((error) => console.error(error));
+      .then((response) => {
+        toast.success(`Projet supprimé : ${response.data.message}`);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        toast.error(`Erreur lors de la suppression du projet : ${error.response.data.message}`);
+        console.error(error);
+      });
   };
 
   const handleModifyProject = () => {
@@ -206,8 +235,14 @@ const Admin_system = () => {
         project_url: projectUrl,
         project_leader: projectLeader,
       })
-      .then((response) => console.log(response.data))
-      .catch((error) => console.error(error));
+      .then((response) => {
+        toast.success(`Projet modifié : ${response.data.message}`);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        toast.error(`Erreur lors de la modification du projet : ${error.response.data.message}`);
+        console.error(error);
+      });
   };
 
   const toggleModal = () => {
@@ -269,11 +304,12 @@ const Admin_system = () => {
               </label>
               <label>
                 Chef de projet:
-                <input
-                  type="text"
+                <select
                   value={projectLeader}
                   onChange={(e) => setProjectLeader(e.target.value)}
-                />
+                >
+                  {renderUserOptions()}
+                </select>
               </label>
               <Button
                 onClick={handleActionSubmit}
@@ -297,11 +333,12 @@ const Admin_system = () => {
               </label>
               <label>
                 Chef de projet:
-                <input
-                  type="text"
+                <select
                   value={projectLeader}
                   onChange={(e) => setProjectLeader(e.target.value)}
-                />
+                >
+                  {renderUserOptions()}
+                </select>
               </label>
               <Button
                 onClick={handleActionSubmit}
@@ -347,201 +384,3 @@ const Admin_system = () => {
 };
 
 export default Admin_system;
-
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
-// import "./../App2.css";
-
-// // axios.defaults.baseURL = 'http://localhost:5001';
-
-// const Admin_system = () => {
-//     const [newObjects, setNewObjects] = useState([]);
-//     const [modalVisible, setModalVisible] = useState(false);
-//     const [projectUrl, setProjectUrl] = useState('');
-//     const [projectLeader, setProjectLeader] = useState('');
-//     const [action, setAction] = useState('');
-//     const [refusalReason, setRefusalReason] = useState('');
-//     const [refusalInputFor, setRefusalInputFor] = useState(null); // ID de l'objet pour lequel afficher le champ de saisie
-//     const [currentDetailId, setCurrentDetailId] = useState(null); // ID de la demande actuellement affichée dans le modal
-//     const [message, setMessage] = useState(''); // Message indiquant le nombre de nouvelles demandes
-
-//     useEffect(() => {
-//         axios.get('http://localhost:5001/check_collection')
-//             .then(response => {
-//                 if (response.data && response.data.new_objects) {
-//                     setNewObjects(response.data.new_objects);
-//                     toast.info(`Il y a ${response.data.new_objects.length} nouvelles demandes.`);
-//                     setMessage(`Il y a ${response.data.new_objects.length} nouvelles demandes.`);
-//                 }
-//             })
-//             .catch(error => console.error(error));
-//     }, []);
-
-//     const handleShowDetails = (detailId) => {
-//         setCurrentDetailId(detailId); // Afficher le modal pour cette demande
-//         setRefusalInputFor(null); // Réinitialiser le champ de saisie de refus
-//     };
-
-//     const handleCloseModal = () => {
-//         setCurrentDetailId(null); // Fermer le modal
-//     };
-
-//     const getCurrentDetail = () => {
-//         // Trouver l'objet par son ID. Si non trouvé, retourner null.
-//         return newObjects.find(obj => obj._id === currentDetailId) || null;
-//     };
-
-//     const handleApprove = (_id) => {
-//         axios.post('http://localhost:5002/stocker', { _id: _id, message: 'Demande approuvée' })
-//             .then(() => {
-//                 // Supprimer l'objet approuvé du tableau
-//                 setNewObjects(newObjects.filter(obj => obj._id !== _id));
-//             })
-//             .catch(error => console.error(error));
-//     };
-
-//     const handleRefuse = (_id) => {
-//         setRefusalInputFor(_id); // Afficher le champ de saisie pour cet ID
-//     };
-
-//     const handleSendRefusal = (_id) => {
-//         if (refusalReason !== '') {
-//             axios.post('http://localhost:5002/stocker', { _id: _id, message: 'Demande refusée: ' + refusalReason })
-//                 .then(() => {
-//                     setRefusalReason('');
-//                     setRefusalInputFor(null); // Masquer le champ de saisie
-//                     // Supprimer l'objet refusé du tableau
-//                     setNewObjects(newObjects.filter(obj => obj._id !== _id));
-//                 })
-//                 .catch(error => console.error(error));
-//         }
-//     };
-
-//     const handleAction = (selectedAction) => {
-//         setAction(selectedAction);
-//     };
-
-//     const handleActionSubmit = () => {
-//         switch (action) {
-//             case 'add':
-//                 handleAddProject();
-//                 break;
-//             case 'delete':
-//                 handleDeleteProject();
-//                 break;
-//             case 'modify':
-//                 handleModifyProject();
-//                 break;
-//             default:
-//                 break;
-//         }
-//     };
-
-//     const handleAddProject = () => {
-//         axios.post('http://localhost:5001/ajouter_projet', { project_url: projectUrl, project_leader: projectLeader })
-//             .then(response => console.log(response.data))
-//             .catch(error => console.error(error));
-//     };
-
-//     const handleDeleteProject = () => {
-//         axios.post('http://localhost:5001/supprimer_projet', { project_url: projectUrl })
-//             .then(response => console.log(response.data))
-//             .catch(error => console.error(error));
-//     };
-
-//     const handleModifyProject = () => {
-//         axios.post('http://localhost:5001/modifier_projet', { project_url: projectUrl, project_leader: projectLeader })
-//             .then(response => console.log(response.data))
-//             .catch(error => console.error(error));
-//     };
-
-//     const toggleModal = () => {
-//         setModalVisible(!modalVisible);
-//     };
-
-//     return (
-//         <div className='admin-container'>
-
-//             <div className="admin-ations">
-//             <h1> Gestion de la base </h1>
-//             <div>
-//                 <Button onClick={() => handleAction('add')}>Ajouter Projet</Button>
-//                 {action === 'add' && (
-//                     <>
-//                         <label>
-//                             URL du projet:
-//                             <input type="text" value={projectUrl} onChange={e => setProjectUrl(e.target.value)} />
-//                         </label>
-//                         <label>
-//                             Chef de projet:
-//                             <input type="text" value={projectLeader} onChange={e => setProjectLeader(e.target.value)} />
-//                         </label>
-//                         <Button onClick={handleActionSubmit}>Envoyer</Button>
-//                     </>
-//                 )}
-//             </div>
-//             <div>
-//                 <Button onClick={() => handleAction('delete')}>Supprimer Projet</Button>
-//                 {action === 'delete' && (
-//                     <>
-//                         <label>
-//                             URL du projet:
-//                             <input type="text" value={projectUrl} onChange={e => setProjectUrl(e.target.value)} />
-//                         </label>
-//                         <Button onClick={handleActionSubmit}>Envoyer</Button>
-//                     </>
-//                 )}
-//             </div>
-//             <div>
-//                 <Button onClick={() => handleAction('modify')}>Modifier Projet</Button>
-//                 {action === 'modify' && (
-//                     <>
-//                         <label>
-//                             URL du projet:
-//                             <input type="text" value={projectUrl} onChange={e => setProjectUrl(e.target.value)} />
-//                         </label>
-//                         <label>
-//                             Chef de projet:
-//                             <input type="text" value={projectLeader} onChange={e => setProjectLeader(e.target.value)} />
-//                         </label>
-//                         <Button onClick={handleActionSubmit}>Envoyer</Button>
-//                     </>
-//                 )}
-//             </div>
-//             </div>
-//             <div className="admin-notifications">
-//                 <ToastContainer position="top-right" autoClose={5000} />
-//                 <p>{message}</p>
-//                 {newObjects.map((object) => (
-//                     <div key={object._id}>
-//                         <p>Nom du projet: {object.nom}</p>
-//                         <Button onClick={() => handleShowDetails(object._id)}>Voir détails</Button>
-//                     </div>
-//                 ))}
-//                 {currentDetailId && getCurrentDetail() && ( // S'assurer que getCurrentDetail() ne retourne pas null
-//                     <div className="modal">
-//                         <div className="modal-content">
-//                             <span className="close" onClick={handleCloseModal}>×</span>
-//                             <h2>Détails de la demande</h2>
-//                             {Object.entries(getCurrentDetail()).map(([key, value]) => (
-//                                 <p key={key}><strong>{key}:</strong> {value}</p>
-//                             ))}
-//                             <Button onClick={() => handleApprove(currentDetailId)}>Approuver</Button>
-//                             <Button onClick={() => handleRefuse(currentDetailId)}>Refuser</Button>
-//                             {refusalInputFor === currentDetailId && (
-//                                 <div>
-//                                     <input type="text" value={refusalReason} onChange={e => setRefusalReason(e.target.value)} placeholder="Motif de refus" />
-//                                     <Button onClick={() => handleSendRefusal(currentDetailId)}>Envoyer</Button>
-//                                 </div>
-//                             )}
-//                         </div>
-//                     </div>
-//                 )}
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default Admin_system;

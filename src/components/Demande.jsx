@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import moment from 'moment';
 // import { useHistory } from 'react-router-dom';
 import "./../App.css";
 import { Button } from "antd";
@@ -16,6 +19,7 @@ function Demande() {
   const [valide2, setValide2] = useState(false);
   const [valide3, setValide3] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [dateDeProd, setDateDeProd] = useState(new Date());
   // ... (autres états)
 
   useEffect(() => {
@@ -59,6 +63,7 @@ function Demande() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    const formattedDateDeProd = moment(dateDeProd).format('DD/MM/YYYY - HH:mm');
     if (!valide0 || !valide1 || !valide2 || !valide3) {
       alert("Veuillez cocher toutes les cases de validation");
       return;
@@ -74,6 +79,7 @@ function Demande() {
         project_name: projectInfo.project_name, // Utiliser project_name de l'état
         project_url: projectUrl,
         project_tag: projectTag,
+        date_de_prod: formattedDateDeProd,
         release_note: releaseNote,
         valide0: valide0.toString(),
         valide1: valide1.toString(),
@@ -139,6 +145,18 @@ function Demande() {
             value={releaseNote}
             onChange={(e) => setReleaseNote(e.target.value)}
             required
+          />
+        </div>
+        <div>
+          <label>Date de Production :</label>
+          <DatePicker
+            selected={dateDeProd}
+            onChange={(date) => setDateDeProd(date)}
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={15}
+            dateFormat="dd/MM/yyyy - HH:mm"
+            timeCaption="Heure"
           />
         </div>
         <div className="validation-section">
