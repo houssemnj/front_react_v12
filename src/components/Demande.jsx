@@ -120,6 +120,16 @@ function Demande() {
       date: formattedDateTime,
       message: `Une demande a été initialisée pour le: \n projet ${projectInfo.project_name} ,\n l'URL: ${projectInfo.project_url} ,\n tag: ${projectTag} ,\n pour le : ${formattedDateDeProd}`
     };
+    
+
+    // Préparation de JSON à envoyer à l'endpoint etat_suivi
+    const etatSuiviData = {
+      project_id: projectInfo.project_id,
+      project_name: projectInfo.project_name,
+      initialisation: "demande initialisée",
+      retour_deploiement: "Null",
+      fin_de_test: "Null"
+    };
 
     try {
       // Envoyez la demande de production
@@ -143,8 +153,16 @@ function Demande() {
         }
       });
 
+      // Envoyez les données à l'endpoint etat_suivi
+      const etatSuiviResponse = await axios.post('http://localhost:5002/etat_suivi', etatSuiviData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
       alert(prodResponse.data.message);
       console.log("Réponse de l'endpoint gest_notif:", notifResponse.data);
+      console.log("Réponse de l'endpoint etat_suivi:", etatSuiviResponse.data);
       resetForm();
     } catch (error) {
       console.error("Erreur lors de la soumission du formulaire:", error);

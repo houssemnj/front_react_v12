@@ -18,6 +18,8 @@ function Moa_test() {
     const [notifData, setNotifData] = useState([]);
     const [isNotifVisible, setIsNotifVisible] = useState(false);
     const [unreadCount, setUnreadCount] = useState(0);
+    const [refusalReason, setRefusalReason] = useState(""); // Pour stocker le motif de refus
+    const [isRefusalInputVisible, setIsRefusalInputVisible] = useState(false); // Pour afficher le champ de saisie du motif de refus
 
     useEffect(() => {
         const fetchNotifications = async () => {
@@ -59,31 +61,56 @@ function Moa_test() {
             setUnreadCount(0);
         }
     };
-    const handleFinish = async () => {
-        if (isChecked) {
-            // Obtenir la date et l'heure actuelles
-            const now = new Date();
-            // Formater la date et l'heure (exemple : "2023-04-03 14:20:00")
-            const formattedDateTime = now.toISOString().replace('T', ' ').substring(0, 19);
 
-            const messageToSend = {
-                message: `Processus terminé pour ID Projet: ${modalData.project_id}, URL Projet: ${modalData.url_project}, Nom projet: ${modalData.nom_projet}`,
-                date: formattedDateTime // Ajouter la date et l'heure formatées
-            };
+    const handleFinish = async (isApproved) => {
+        // Obtenir la date et l'heure actuelles
+        const now = new Date();
+        const formattedDateTime = now.toISOString().replace('T', ' ').substring(0, 19);
 
-            try {
-                const response = await axios.post('http://localhost:5002/gest_notif', messageToSend, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                });
-                console.log("Réponse de l'endpoint:", response.data);
-            } catch (error) {
-                console.error("Erreur lors de l'envoi des données:", error);
+        const messageToSend = {
+            date: formattedDateTime,
+            message: isApproved
+                ? `Test verifié, déploiement terminé pour ID Projet: ${modalData.project_id}, URL Projet: ${modalData.url_project}, Nom projet: ${modalData.nom_projet}`
+                : `Test non reuissie, déploiement refusé pour le projet, Nom projet: ${modalData.nom_projet}, ID Projet: ${modalData.project_id}. Motif du refus: ${refusalReason}`,
+        };
+
+        // Préparer le JSON à envoyer à l'endpoint etat_suivi
+        const etatSuiviData = {
+            project_id: modalData.project_id,
+            project_name: modalData.nom_projet,
+            initialisation: "demande initialisée",
+            retour_deploiement: "approuved",
+            fin_de_test: isApproved ? "test effectué, succès" : `refused: ${refusalReason}`
+        };
+
+        try {
+            const response = await axios.post('http://localhost:5002/gest_notif', messageToSend, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            // Envoyer les données à l'endpoint etat_suivi
+            const responseEtatSuivi = await axios.post('http://localhost:5002/etat_suivi', etatSuiviData, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log("Réponse de l'endpoint:", response.data);
+            console.log("Réponse de l'endpoint etat_suivi:", responseEtatSuivi.data);
+
+            if (isApproved) {
+                setIsModalOpen(false); // Fermer le modal si approuvé
+            } else {
+                setRefusalReason(""); // Réinitialiser le motif de refus
+                setIsRefusalInputVisible(false); // Cacher le champ de saisie du motif de refus
             }
-
-            setIsModalOpen(false); // Fermer le modal
+        } catch (error) {
+            console.error("Erreur lors de l'envoi des données:", error);
         }
+    };
+
+    const handleRefuseClick = () => {
+        setIsRefusalInputVisible(true); // Afficher le champ de saisie du motif de refus
     };
 
     const showDetails = async (id) => {
@@ -288,11 +315,30 @@ function Moa_test() {
                     <Checkbox key="check" onChange={handleCheck} checked={isChecked}>
                         Vérifié
                     </Checkbox>,
-                    <Button key="finish" onClick={handleFinish} disabled={!isChecked}>
+                    <Button key="finish" onClick={() => handleFinish(true)} disabled={!isChecked}>
                         Terminé
+                    </Button>,
+                    <Button key="refuse" onClick={handleRefuseClick} disabled={isChecked}>
+                        Refuser
                     </Button>,
                 ]}
             >
+                {isRefusalInputVisible && (
+                    <div>
+                        <Input
+                            type="text"
+                            value={refusalReason}
+                            onChange={(e) => setRefusalReason(e.target.value)}
+                            placeholder="Motif du refus"
+                        />
+                        <Button
+                            onClick={() => handleFinish(false)}
+                            disabled={!refusalReason}
+                        >
+                            Envoyer
+                        </Button>
+                    </div>
+                )}
                 <div>
                     <p><strong>ID Projet :</strong> {modalData.project_id}</p>
                     <p><strong>URL Projet :</strong> {modalData.url_project}</p>

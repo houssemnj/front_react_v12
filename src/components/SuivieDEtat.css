@@ -1,0 +1,41 @@
+.suivi-d-etat {
+    padding: 20px;
+    background-color: #f0f2f5;
+    min-height: 100vh;
+}
+
+.suivi-d-etat .ant-table {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.suivi-d-etat .ant-badge {
+    margin-bottom: 20px;
+}
+
+.suivi-d-etat .ant-typography {
+    color: #333;
+}
+
+.suivi-d-etat .ant-table-thead>tr>th {
+    background-color: #1890ff;
+    color: white;
+}
+
+.suivi-d-etat .ant-table-tbody>tr>td {
+    color: #333;
+}
+
+.suivi-d-etat .ant-table-column-title {
+    color: white;
+}
+
+.suivi-d-etat .ant-table-row {
+    transition: background-color 0.3s;
+}
+
+.suivi-d-etat .ant-table-row:hover {
+    background-color: #e6f7ff;
+}

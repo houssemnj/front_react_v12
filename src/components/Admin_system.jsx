@@ -474,6 +474,28 @@ const Admin_system = () => {
   const [isNotifVisible, setIsNotifVisible] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
 
+
+  // Fonction pour envoyer les données à l'endpoint /etat_suivi
+  const sendEtatSuiviData = async (record, actionType, refusalReason = "") => {
+    const etatSuiviData = {
+      project_id: record.project_id,
+      project_name: record.nom,
+      initialisation: "demande initialisée",
+      retour_deploiement: actionType === 'approved' ? "approved" : `refused: ${refusalReason}`,
+      fin_de_test: "Null"
+    };
+
+    try {
+      await axios.post('http://localhost:5002/etat_suivi', etatSuiviData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+    } catch (error) {
+      console.error("Erreur lors de l'envoi des données à etat_suivi:", error);
+    }
+  };
+
   // Fonction pour envoyer une notification
   const sendNotification = async (record, actionType) => {
     const now = new Date();
@@ -645,6 +667,7 @@ const Admin_system = () => {
 
   const handleApprove = async (record) => {
     await sendNotification(record, 'approved');
+    await sendEtatSuiviData(record, 'approved');
     axios
       .post("http://localhost:5002/stocker", {
         _id: record._id,
@@ -665,6 +688,7 @@ const Admin_system = () => {
 
   const handleSendRefusal = async (record) => {
     await sendNotification(record, 'refused');
+    await sendEtatSuiviData(record, 'refused', refusalReason);
     if (refusalReason !== "") {
       axios
         .post("http://localhost:5002/stocker", {

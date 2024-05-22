@@ -103,6 +103,11 @@ const menuItems = [
     icon: <UserOutlined />,
     label: <Link to='/Check-MOA'>MOA test</Link>,
   },
+  {
+    key: '6',
+    icon: <UserOutlined />,
+    label: <Link to='/suivie_d_etat'>Suivie d'etat</Link>,
+  },
 ];
 
 const MainLayout = () => {

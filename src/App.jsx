@@ -7,6 +7,7 @@ import DemandePage from "./pages/DemandePage.jsx";
 import ReponsePage from "./pages/ReponsePage";
 import DeployPage from "./pages/DeployPage";
 import Moa_testPage from "./pages/Moa_testPage.jsx";
+import SuiviePage from "./pages/SuiviePage.jsx";
 // import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/Check-MOA/*" element={<Moa_testPage />} />
           <Route path="/check-collection/*" element={<Admin_systemPage />} />
           <Route path="/deploiement/*" element={<DeployPage />} />
+          <Route path="/suivie_d_etat/*" element={<SuiviePage />} />
           {/* Redirect to login if not authenticated */}
         </Route>
       </Routes>
