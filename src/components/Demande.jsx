@@ -3,9 +3,10 @@ import axios from "axios";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import moment from 'moment';
+import { SearchOutlined, BellOutlined } from "@ant-design/icons";
 // import { useHistory } from 'react-router-dom';
 import "./../App.css";
-import { Button } from "antd";
+import { Badge, Button } from "antd";
 
 function Demande() {
   // const history = useHistory();
@@ -20,7 +21,50 @@ function Demande() {
   const [valide3, setValide3] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [dateDeProd, setDateDeProd] = useState(new Date());
-  // ... (autres états)
+  const [notifData, setNotifData] = useState([]);
+  const [isNotifVisible, setIsNotifVisible] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await axios.post("http://localhost:5002/gest_notif");
+        if (response.data && response.data.length > 0) {
+          // Trier les notifications par date décroissante
+          const sortedNotifData = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
+          setNotifData(sortedNotifData);
+          updateUnreadCount(sortedNotifData);
+        }
+      } catch (error) {
+        console.error("Erreur lors de la récupération des notifications:", error);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
+
+  const updateUnreadCount = (notifications) => {
+    const lastReadDateTime = localStorage.getItem("lastReadDateTime");
+    let newUnreadCount = 0;
+
+    if (lastReadDateTime) {
+      newUnreadCount = notifications.filter(notif => new Date(notif.date) > new Date(lastReadDateTime)).length;
+    } else {
+      newUnreadCount = notifications.length;
+    }
+
+    setUnreadCount(newUnreadCount);
+  };
+
+  const toggleNotifDiv = () => {
+    setIsNotifVisible(!isNotifVisible);
+    if (!isNotifVisible && notifData.length > 0) {
+      // Marquer toutes les notifications comme lues en stockant la date et l'heure de la dernière notification
+      const latestNotifDateTime = notifData[0].date; // Assurez-vous que notifData est trié par date décroissante
+      localStorage.setItem("lastReadDateTime", latestNotifDateTime);
+      setUnreadCount(0);
+    }
+  };
 
   useEffect(() => {
     axios
@@ -61,22 +105,27 @@ function Demande() {
     }
   }, [projectUrl]);
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     const formattedDateDeProd = moment(dateDeProd).format('DD/MM/YYYY - HH:mm');
     if (!valide0 || !valide1 || !valide2 || !valide3) {
       alert("Veuillez cocher toutes les cases de validation");
       return;
     }
-    // if (!projectInfo.project_id) {
-    //     alert('L\'ID du projet n\'a pas été récupéré. Verifiez les authentifications ou veuillez réessayer.');
-    //     return;
-    // }
 
-    axios
-      .post("http://localhost:5002/demande_prod", {
-        project_id: projectInfo.project_id, // Utiliser project_id de l'état
-        project_name: projectInfo.project_name, // Utiliser project_name de l'état
+    // Préparez le message à envoyer
+    const now = new Date();
+    const formattedDateTime = now.toISOString().replace('T', ' ').substring(0, 19);
+    const messageToSend = {
+      date: formattedDateTime,
+      message: `Une demande a été initialisée pour le: \n projet ${projectInfo.project_name} ,\n l'URL: ${projectInfo.project_url} ,\n tag: ${projectTag} ,\n pour le : ${formattedDateDeProd}`
+    };
+
+    try {
+      // Envoyez la demande de production
+      const prodResponse = await axios.post("http://localhost:5002/demande_prod", {
+        project_id: projectInfo.project_id,
+        project_name: projectInfo.project_name,
         project_url: projectUrl,
         project_tag: projectTag,
         date_de_prod: formattedDateDeProd,
@@ -85,14 +134,21 @@ function Demande() {
         valide1: valide1.toString(),
         valide2: valide2.toString(),
         valide3: valide3.toString(),
-      })
-      .then((response) => {
-        alert(response.data.message);
-        resetForm();
-      })
-      .catch((error) => {
-        console.error("Erreur lors de la soumission du formulaire:", error);
       });
+
+      // Envoyez la notification
+      const notifResponse = await axios.post('http://localhost:5002/gest_notif', messageToSend, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      alert(prodResponse.data.message);
+      console.log("Réponse de l'endpoint gest_notif:", notifResponse.data);
+      resetForm();
+    } catch (error) {
+      console.error("Erreur lors de la soumission du formulaire:", error);
+    }
   };
 
   const resetForm = () => {
@@ -111,6 +167,21 @@ function Demande() {
   return (
     <div>
       <h1>Formulaire de demande de production</h1>
+      <div style={{ position: 'absolute', top: 20, right: 20 }}>
+        <Badge count={unreadCount}>
+          <BellOutlined onClick={toggleNotifDiv} style={{ fontSize: '24px', cursor: 'pointer' }} />
+        </Badge>
+      </div>
+      {isNotifVisible && (
+        <div className="notification-div">
+          {notifData.map((notif, index) => (
+            <div key={index} className="notification-item">
+              <p><strong>Notification {index + 1}</strong></p>
+              <p>{notif.date} <br /> {notif.message}</p>
+            </div>
+          ))}
+        </div>
+      )}
       <form onSubmit={handleFormSubmit}>
         <div>
           <label htmlFor="project_url">URL du projet :</label>

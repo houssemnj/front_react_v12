@@ -109,3 +109,31 @@ h1 {
 /* ################################################################## */
 /* ################################################################## */
 
+/* Reponse.css */
+.notification-bell {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.notification-div {
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    width: 350px;
+    background-color: #f8f6f6;
+    box-shadow: 0 4px 8px rgba(251, 249, 249, 0.897);
+    overflow-y: auto;
+    max-height: 400px;
+    padding: 10px;
+    z-index: 1000;
+    border-radius: 20px;
+}
+
+.notification-item {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #f9f2f2;
+    padding-bottom: 10px;
+}

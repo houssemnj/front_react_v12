@@ -1,9 +1,8 @@
-// 
-
 import React, { useState, useEffect, useRef } from "react";
-import { SearchOutlined } from "@ant-design/icons";
-import { Button, Input, Space, Table, Modal, Checkbox, message } from "antd";
+import { SearchOutlined, BellOutlined } from "@ant-design/icons";
+import { Badge, Button, Input, Space, Table, Modal, Checkbox, message, notification } from "antd";
 import Highlighter from "react-highlight-words";
+import { useLocation } from "react-router-dom"; // Assurez-vous d'avoir installé react-router-dom
 import axios from "axios";
 import "./../App.css";
 import "./modal.css";
@@ -16,6 +15,76 @@ function Moa_test() {
     const [modalData, setModalData] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false); // état pour gérer l'ouverture/fermeture
     const [isChecked, setIsChecked] = useState(false);
+    const [notifData, setNotifData] = useState([]);
+    const [isNotifVisible, setIsNotifVisible] = useState(false);
+    const [unreadCount, setUnreadCount] = useState(0);
+
+    useEffect(() => {
+        const fetchNotifications = async () => {
+            try {
+                const response = await axios.post("http://localhost:5002/gest_notif");
+                if (response.data && response.data.length > 0) {
+                    // Trier les notifications par date décroissante
+                    const sortedNotifData = response.data.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    setNotifData(sortedNotifData);
+                    updateUnreadCount(sortedNotifData);
+                }
+            } catch (error) {
+                console.error("Erreur lors de la récupération des notifications:", error);
+            }
+        };
+
+        fetchNotifications();
+    }, []);
+
+    const updateUnreadCount = (notifications) => {
+        const lastReadDateTime = localStorage.getItem("lastReadDateTime");
+        let newUnreadCount = 0;
+
+        if (lastReadDateTime) {
+            newUnreadCount = notifications.filter(notif => new Date(notif.date) > new Date(lastReadDateTime)).length;
+        } else {
+            newUnreadCount = notifications.length;
+        }
+
+        setUnreadCount(newUnreadCount);
+    };
+
+    const toggleNotifDiv = () => {
+        setIsNotifVisible(!isNotifVisible);
+        if (!isNotifVisible && notifData.length > 0) {
+            // Marquer toutes les notifications comme lues en stockant la date et l'heure de la dernière notification
+            const latestNotifDateTime = notifData[0].date; // Assurez-vous que notifData est trié par date décroissante
+            localStorage.setItem("lastReadDateTime", latestNotifDateTime);
+            setUnreadCount(0);
+        }
+    };
+    const handleFinish = async () => {
+        if (isChecked) {
+            // Obtenir la date et l'heure actuelles
+            const now = new Date();
+            // Formater la date et l'heure (exemple : "2023-04-03 14:20:00")
+            const formattedDateTime = now.toISOString().replace('T', ' ').substring(0, 19);
+
+            const messageToSend = {
+                message: `Processus terminé pour ID Projet: ${modalData.project_id}, URL Projet: ${modalData.url_project}, Nom projet: ${modalData.nom_projet}`,
+                date: formattedDateTime // Ajouter la date et l'heure formatées
+            };
+
+            try {
+                const response = await axios.post('http://localhost:5002/gest_notif', messageToSend, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                console.log("Réponse de l'endpoint:", response.data);
+            } catch (error) {
+                console.error("Erreur lors de l'envoi des données:", error);
+            }
+
+            setIsModalOpen(false); // Fermer le modal
+        }
+    };
 
     const showDetails = async (id) => {
         console.log("ID demandé:", id);
@@ -34,18 +103,6 @@ function Moa_test() {
 
     const handleCheck = (e) => {
         setIsChecked(e.target.checked);
-    };
-
-    const handleFinish = () => {
-        if (isChecked) {
-            message.success({
-                content: 'Precessus de deploiement terminé!',
-                duration: 0,
-                onClose: () => message.destroy(),
-                btn: <Button onClick={() => message.destroy()}>Fermer</Button>,
-            });
-            setIsModalOpen(false); // Fermer le modal
-        }
     };
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -207,6 +264,21 @@ function Moa_test() {
     return (
         <div>
             <h2>Réponses des demandes approuvées</h2>
+            <div style={{ position: 'absolute', top: 20, right: 20 }}>
+                <Badge count={unreadCount}>
+                    <BellOutlined onClick={toggleNotifDiv} style={{ fontSize: '24px', cursor: 'pointer' }} />
+                </Badge>
+            </div>
+            {isNotifVisible && (
+                <div className="notification-div">
+                    {notifData.map((notif, index) => (
+                        <div key={index} className="notification-item">
+                            <p><strong>Notification {index + 1}</strong></p>
+                            <p>{notif.date} <br /> {notif.message}</p>
+                        </div>
+                    ))}
+                </div>
+            )}
             <Table columns={columns} dataSource={details_approuvees} />
             <Modal
                 title="Détails de la demande"
@@ -232,8 +304,6 @@ function Moa_test() {
 }
 
 export default Moa_test;
-
-
 
 
 // import React, { useState, useEffect, useRef, createContext, useContext } from "react";

@@ -122,7 +122,7 @@ const DetailsDrawer = ({
       >
         <Descriptions title="Information" layout="vertical" items={desc} />
         <div style={{ display: "flex", gap: 10 }}>
-          <Button type="primary" onClick={() => handleApprove(record._id)}>
+          <Button type="primary" onClick={() => handleApprove(record)}>
             Approuver
           </Button>
           <Button
@@ -141,7 +141,7 @@ const DetailsDrawer = ({
               onChange={(e) => setRefusalReason(e.target.value)}
               placeholder="Motif de refus"
             />
-            <Button onClick={() => handleSendRefusal(record._id)}>
+            <Button onClick={() => handleSendRefusal(record)}>
               Envoyer
             </Button>
           </div>
