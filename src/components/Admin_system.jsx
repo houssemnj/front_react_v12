@@ -793,11 +793,12 @@ const Admin_system = () => {
   return (
     <div>
       <div>
-        <Typography.Title level={3}> Gestion de la base </Typography.Title>
-        <div style={{ position: 'fixed', top: 35, right: 32, zIndex: 1000 }}>
-          <Badge count={unreadCount}>
-            <BellOutlined onClick={toggleNotifDiv} style={{ fontSize: '24px', cursor: 'pointer' }} />
-          </Badge>
+        <h1> Gestion de la base </h1>
+        <div style={{ position: 'absolute', top: '35px', right: '40px' }}>
+             <Badge count={unreadCount}>
+                   <BellOutlined onClick={toggleNotifDiv} className="bell-icon-hover" />
+
+             </Badge>
         </div>
         {isNotifVisible && (
           <div className="notification-div">

@@ -109,8 +109,8 @@ h1 {
 /* ################################################################## */
 /* ################################################################## */
 
-/* Reponse.css */
-.notification-bell {
+  /* Reponse.css */
+  .notification-bell {
     position: absolute;
     top: 20px;
     right: 20px;
@@ -120,8 +120,8 @@ h1 {
 
 .notification-div {
     position: absolute;
-    top: 50px;
-    right: 20px;
+    top: 43px;
+    right: 83px;
     width: 350px;
     background-color: #f8f6f6;
     box-shadow: 0 4px 8px rgba(251, 249, 249, 0.897);

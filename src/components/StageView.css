@@ -1,0 +1,36 @@
+.stage {
+    flex: 1;
+    padding: 10px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    color: #fff; /* Ensure text is readable on colored backgrounds */
+  }
+  
+  .stage:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2), 0 12px 22px rgba(0, 0, 0, 0.2);
+  }
+  
+  .stage h2, .stage p {
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Status Specific Styles */
+  .stage-success {
+    background: linear-gradient(145deg, #4caf50, #087f23);
+  }
+  
+  .stage-failed {
+    background: linear-gradient(145deg, #f44336, #ba000d);
+  }
+  
+  .stage-in_progress {
+    background: linear-gradient(145deg, #ffeb3b, #c8b900);
+    color: #333; /* Darker text color for better contrast */
+  }
+  

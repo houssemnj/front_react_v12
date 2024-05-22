@@ -3,14 +3,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap');
 
-
+@keyframes AnimatedBackground {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
 .container {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   padding: 22px;
   gap: 22px; /* Space between the two main containers */
-
+  
   animation: AnimatedBackground 10s ease infinite; 
 }
 .header {
@@ -35,14 +39,14 @@
   background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%); /* A subtle gradient for depth */
   padding: 20px;
   border-radius: 12px; /* Slightly larger border-radius for a softer look */
-  box-shadow: 0 6px 20px rgba(68, 96, 255, 0.15); /* A deeper shadow for a floating effect */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* A deeper shadow for a floating effect */
   height: fit-content; /* Adjustcont height based on content */
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions for interactive effects */
   font-family: 'Poppins', sans-serif; /* Elegant and modern font */
   color: #ffffff; /* A color that contrasts well with the light background */
   position: relative; /* For pseudo-elements or absolutely positioned elements */
   overflow: hidden; /* Ensures that children don't overflow the rounded corners */
-  height: 11111px;
+  height:100%
 }
 
 .main:hover {
@@ -97,8 +101,8 @@ fieldset {
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Interactive effects */
   position: relative; /* For additional styling or pseudo-elements */
   overflow: auto;
-  max-height: 756px;
-  max-width: 1100px;
+  max-height: 100%;
+  max-width: 1000px;
 }
 .main3 {
   background: linear-gradient(145deg, #ffffff 0%, #ffffff 100%); /* A gentle and elegant gradient */
@@ -111,7 +115,7 @@ fieldset {
   position: relative; /* For additional styling or pseudo-elements */
   overflow-y: auto; 
   max-height: 200px;/* Keeps content within the rounded corners */
-  max-width: 1100px;
+  max-width: 1000px;
 }
 
 .main2:hover, .main3:hover {

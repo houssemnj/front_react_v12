@@ -290,12 +290,13 @@ function Moa_test() {
     // console.log(details_approuvees);
     return (
         <div>
-            <h2>Réponses des demandes approuvées</h2>
-            <div style={{ position: 'fixed', top: 35, right: 32, zIndex: 1000 }}>
-                <Badge count={unreadCount}>
-                    <BellOutlined onClick={toggleNotifDiv} style={{ fontSize: '24px', cursor: 'pointer' }} />
-                </Badge>
-            </div>
+            <h1>Réponses des demandes approuvées</h1>
+            <div style={{ position: 'absolute', top: '35px', right: '40px' }}>
+             <Badge count={unreadCount}>
+                   <BellOutlined onClick={toggleNotifDiv} className="bell-icon-hover" />
+
+             </Badge>
+        </div>
             {isNotifVisible && (
                 <div className="notification-div">
                     {notifData.map((notif, index) => (

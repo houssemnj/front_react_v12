@@ -79,51 +79,7 @@ textarea {
 
     margin-bottom: 10px;
 }
-
-/* Styles for the modal itself */
-.modal {
-    /* Adjust the modal width as needed, or use max-width for responsiveness */
-    width: 1100px;
-    max-width: 90%;
-}
-
-/* Styles for the modal content, ensuring it's scrollable if content overflows */
-.ant-modal-body {
-    max-height: 60vh;
-    /* Adjust based on your needs */
-    overflow-y: auto;
-    /* Show vertical scrollbar if content overflows */
-}
-
-/* Ensuring the preformatted text is nicely formatted within the modal */
-.modal pre {
-    margin: 0;
-    /* Remove the default margin */
-    padding: 1em;
-    background-color: #f5f5f5;
-    /* Light grey background for the preformatted text */
-    max-height: 50vh;
-    /* Adjust based on your needs */
-    overflow-y: auto;
-    /* Add a scrollbar if the content is larger than the pre tag */
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
-    /* Inner shadow for depth */
-    border-radius: 4px;
-    /* Slightly rounded corners for the preformatted text */
-    white-space: pre-wrap;
-    /* Ensure long lines wrap */
-    word-wrap: break-word;
-    /* Break words to prevent horizontal scrolling */
-}
-
-/* Additional styling for the loading paragraph */
-.modal p {
-    text-align: center;
-    /* Center the loading text */
-    color: #999;
-    /* Light grey color for the loading text */
-}
-
+    
 /* Style adjustments for smaller screens */
 @media (max-width: 1050px) {
 

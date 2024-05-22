@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Table, Typography, notification } from "antd";
 import "./SuivieDEtat.css"; // Assurez-vous d'avoir un fichier CSS pour le style
+
 // import "./../App.css";
 
 function SuivieDEtat() {
@@ -69,7 +70,7 @@ function SuivieDEtat() {
 
     return (
         <div className="suivie-d-etat">
-            <Typography.Title level={2}>Suivi d'État des Projets</Typography.Title>
+            <h1>Suivi d'État des Projets</h1>
             <Table
                 columns={columns}
                 dataSource={etatProjet}
