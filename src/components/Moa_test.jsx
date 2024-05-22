@@ -291,7 +291,7 @@ function Moa_test() {
     return (
         <div>
             <h2>Réponses des demandes approuvées</h2>
-            <div style={{ position: 'absolute', top: 20, right: 20 }}>
+            <div style={{ position: 'fixed', top: 35, right: 32, zIndex: 1000 }}>
                 <Badge count={unreadCount}>
                     <BellOutlined onClick={toggleNotifDiv} style={{ fontSize: '24px', cursor: 'pointer' }} />
                 </Badge>

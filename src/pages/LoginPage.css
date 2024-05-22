@@ -1,0 +1,44 @@
+/* LoginPage.css */
+.login-page {
+  background-color: #f0f2f5;
+  /* A light grey background for the whole page */
+  height: 100vh;
+  /* Full viewport height */
+}
+
+.login-card {
+  padding: 24px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  /* Horizontal offset, vertical offset, blur radius, color */
+  transition: 0.3s;
+  /* Optional: Adds a transition effect when hovering */
+  background-color: #ffffff;
+  /* White background for the card */
+}
+
+.login-card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.login-header {
+  text-align: center;
+  /* Center the header content */
+  margin-bottom: 24px;
+  /* Space between header and form */
+}
+
+.login-logo {
+  width: 120px;
+  /* Adjust size as needed */
+  margin-bottom: 6px;
+  /* Space below the logo */
+}
+
+.login-title {
+  color: #32325d;
+  /* A professional dark color for the title */
+  font-weight: 500;
+  /* Semi-bold font weight */
+}
+
+/* Add any additional styles for the LoginForm if needed */

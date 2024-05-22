@@ -7,6 +7,14 @@ import "./SuivieDEtat.css"; // Assurez-vous d'avoir un fichier CSS pour le style
 function SuivieDEtat() {
     const [etatProjet, setEtatProjet] = useState([]);
 
+    const getStatusStyle = (status) => {
+        if (status === "demande initialisée") return "status-green";
+        if (status === "en attente") return "status-yellow";
+        if (status === "approved") return "status-green";
+        if (status.startsWith("refused")) return "status-red";
+        return "";
+    };
+
     useEffect(() => {
         const fetchEtatProjet = async () => {
             try {
@@ -22,6 +30,12 @@ function SuivieDEtat() {
         };
 
         fetchEtatProjet();
+
+        // Ajout d'un intervalle pour rafraîchir les données toutes les 30 secondes
+        const interval = setInterval(fetchEtatProjet, 5000);
+
+        // Nettoyage de l'intervalle lors du démontage du composant
+        return () => clearInterval(interval);
     }, []);
 
     const columns = [
@@ -34,16 +48,22 @@ function SuivieDEtat() {
             title: "Initialisation",
             dataIndex: "initialisation",
             key: "initialisation",
+            render: (text) => <span className={getStatusStyle(text)}>{text}</span>,
+
         },
         {
             title: "Déploiement",
             dataIndex: "deploiement",
             key: "deploiement",
+            render: (text) => <span className={getStatusStyle(text)}>{text}</span>,
+
         },
         {
             title: "Test",
             dataIndex: "test",
             key: "test",
+            render: (text) => <span className={getStatusStyle(text)}>{text}</span>,
+
         },
     ];
 

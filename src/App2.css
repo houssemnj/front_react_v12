@@ -1,7 +1,13 @@
 /* Style général de la page */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap');
+
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #edf2f7;
+    font-family: 'Poppins', sans-serif;
+    /* Elegant and modern font */
     color: #333;
     line-height: 1.6;
     margin: 0;
@@ -12,6 +18,9 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    font-family: 'Poppins', sans-serif;
+    /* Elegant and modern font */
+
 }
 
 .admin-actions,
@@ -33,9 +42,26 @@ body {
 }
 
 h1 {
+    font-family: 'Poppins', sans-serif;
     color: #2c3e50;
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 30px;
+    height: 2px;
+    background-color: #3498db;
+    border-radius: 1px;
 }
 
 
@@ -48,127 +74,89 @@ textarea {
     padding: 10px;
     width: 100%;
     box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    /* Elegant and modern font */
+
     margin-bottom: 10px;
 }
 
-/* .modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    width: 80%;
-    max-width: 500px;
-}
-
-.modal-content {
-    margin-bottom: 20px;
-}
-
-.close {
-    float: right;
-    font-size: 1.2rem;
-    cursor: pointer;
-} */
-
+/* Styles for the modal itself */
 .modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    width: 50%;
-    /* Ajustez la largeur selon vos besoins */
-    max-width: 600px;
-    max-height: 80vh;
-    /* Hauteur maximale avant d'utiliser le défilement */
-    overflow-y: auto;
-    /* Active le défilement vertical si nécessaire */
+    /* Adjust the modal width as needed, or use max-width for responsiveness */
+    width: 1100px;
+    max-width: 90%;
 }
 
-.modal-content {
-    position: relative;
-    /* Pour positionner correctement le bouton de fermeture */
+/* Styles for the modal content, ensuring it's scrollable if content overflows */
+.ant-modal-body {
+    max-height: 60vh;
+    /* Adjust based on your needs */
     overflow-y: auto;
-    /* Permet un défilement interne si nécessaire */
+    /* Show vertical scrollbar if content overflows */
 }
 
-.close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 1.5rem;
-    font-weight: bold;
-    line-height: 1;
-    color: #6c757d;
-    /* Couleur de la croix de fermeture */
-    background: transparent;
-    border: none;
+/* Ensuring the preformatted text is nicely formatted within the modal */
+.modal pre {
+    margin: 0;
+    /* Remove the default margin */
+    padding: 1em;
+    background-color: #f5f5f5;
+    /* Light grey background for the preformatted text */
+    max-height: 50vh;
+    /* Adjust based on your needs */
+    overflow-y: auto;
+    /* Add a scrollbar if the content is larger than the pre tag */
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Inner shadow for depth */
+    border-radius: 4px;
+    /* Slightly rounded corners for the preformatted text */
+    white-space: pre-wrap;
+    /* Ensure long lines wrap */
+    word-wrap: break-word;
+    /* Break words to prevent horizontal scrolling */
+}
+
+/* Additional styling for the loading paragraph */
+.modal p {
+    text-align: center;
+    /* Center the loading text */
+    color: #999;
+    /* Light grey color for the loading text */
+}
+
+/* Style adjustments for smaller screens */
+@media (max-width: 1050px) {
+
+    .modal,
+    .ant-modal-body {
+        max-width: 100%;
+        max-height: 75vh;
+    }
+
+    .modal pre {
+        max-height: 60vh;
+    }
+}
+
+
+/* App.css */
+.bell-icon-hover {
+    font-size: 24px;
     cursor: pointer;
+    border-radius: 50%;
+    /* Makes it round */
+    padding: 5px;
+    /* Adjust padding as needed */
+    transition: background-color 0.3s;
+    /* Smooth transition for background color */
 }
 
-.modal-header {
-    margin-bottom: 20px;
+.bell-icon-hover:hover {
+    background-color: #007bff;
+    /* Blue background on hover */
+    color: white;
+    /* Optional: change icon color to white on hover */
 }
 
-.modal-header h2 {
-    margin-top: 0;
-    color: #333;
-    font-size: 22px;
-}
 
-.modal-body p {
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 15px;
-}
-
-.modal-footer {
-    margin-top: 20px;
-    text-align: right;
-    /* Aligner les boutons à droite */
-}
-
-.modal-footer .refusal-input {
-    margin-right: 10px;
-    /* Espace entre l'input et le bouton */
-}
-
-.modal-footer .refusal-input input[type="text"] {
-    width: auto;
-    /* Permettre à l'input de ne prendre que l'espace nécessaire */
-    display: inline-block;
-    /* Aligner l'input avec le bouton */
-}
-
-/* Styles pour les validations */
-.validation-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.validation-container label {
-    display: flex;
-    align-items: center;
-}
-
-.validation-container input[type="checkbox"] {
-    margin-right: 5px;
-}
-
-/* Styles pour ToastContainer */
-.Toastify__toast-container {
-    font-size: 14px;
-}
-
-/* Ajoutez d'autres styles selon vos besoins */
+/*  333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333  */

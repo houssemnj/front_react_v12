@@ -39,3 +39,21 @@
 .suivi-d-etat .ant-table-row:hover {
     background-color: #e6f7ff;
 }
+
+.status-green {
+    color: #52c41a;
+    /* Vert */
+    font-weight: bold;
+}
+
+.status-yellow {
+    color: #fadb14;
+    /* Jaune */
+    font-weight: bold;
+}
+
+.status-red {
+    color: #ff4d4f;
+    /* Rouge */
+    font-weight: bold;
+}

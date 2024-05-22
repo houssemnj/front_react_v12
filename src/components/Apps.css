@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap');
+
+  div.main {
+    background-color: #fff;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif; /* Elegant and modern font */
+    border-radius: 8px;
+    height: fit-content; /* Adjustcont height based on content */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions for interactive effects */
+  }
+  div.main2 {
+    background-color: #fff;
+    width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif; /* Elegant and modern font */
+    border-radius: 8px;
+    height: fit-content; /* Adjustcont height based on content */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions for interactive effects */
+    overflow: auto;
+    
+  }
+
+  
+  .main:hover {
+    transform: translateY(-5px); /* Moves up slightly on hover for an interactive feel */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* A more pronounced shadow on hover */
+  }
+  .main2:hover {
+    transform: translateY(-5px); /* Moves up slightly on hover for an interactive feel */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* A more pronounced shadow on hover */
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+
+/* Optional: Add an animation to the label on focus within the input */
+input:focus + label span,
+select:focus + label span {
+  color: #007bff; /* Highlight color when input is focused */
+  transform: scale(1.05); /* Slight increase in size for emphasis */
+}
+
+input[type="text"], select {
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+input[type="text"]:focus, select:focus {
+  background: linear-gradient(145deg, #f4f7ff, #edeff0);
+  border-color: #293f1c;
+  outline: none;
+}
+
+input[type="text"]:hover, select:hover {
+  background: linear-gradient(145deg, #f4f7ff, #edeff0);
+  border-color: #94beeb;
+}
+
+button {
+  background: linear-gradient(145deg, #5889c2, #0d6b83);
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  
+  
+}
+
+button:hover {
+  background: linear-gradient(145deg, #5889c2, #0d6b83);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Additional styles for the select dropdown */
+select {
+  cursor: pointer;
+}
+
+/* Style the option elements */
+select option {
+  padding: 10px;
+}
+
+
+
+  
+  .repo pre {
+    background-color: hsl(0, 0%, 100%);
+    padding: 1em;
+    border-radius: 4px;
+    overflow: auto;
+  }
+  
+
+  fieldset {
+    border: none;
+    padding: 0;
+    margin: 0 0 20px 0; /* Adjust margin as needed */
+  }
+  
+  
+  .section-title {
+    font-family: 'Poppins', sans-serif;
+    color: #2c3e50;
+    font-size: 1rem;
+    font-weight: 600;
+    position: relative;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .section-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 30px;
+    height: 2px;
+    background-color: #3498db;
+    border-radius: 1px;
+  }
+  

@@ -794,7 +794,7 @@ const Admin_system = () => {
     <div>
       <div>
         <Typography.Title level={3}> Gestion de la base </Typography.Title>
-        <div style={{ position: 'absolute', top: 20, right: 20 }}>
+        <div style={{ position: 'fixed', top: 35, right: 32, zIndex: 1000 }}>
           <Badge count={unreadCount}>
             <BellOutlined onClick={toggleNotifDiv} style={{ fontSize: '24px', cursor: 'pointer' }} />
           </Badge>
